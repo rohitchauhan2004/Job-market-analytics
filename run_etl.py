@@ -1,7 +1,7 @@
 import sys
 import os
 
-# Make sure src/ is on Python path
+# Ensure src/ is on Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 from etl import fetch_jobs, ingest, process, skills, export
@@ -29,7 +29,6 @@ def run_etl():
 
     except Exception as e:
         print(f"❌ ETL pipeline failed: {e}")
-
 
 if __name__ == "__main__":
     run_etl()
