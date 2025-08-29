@@ -9,6 +9,7 @@ import seaborn as sns
 import plotly.express as px
 from prophet import Prophet
 import spacy
+import subprocess
 
 # -------------------------
 # Config
@@ -26,6 +27,22 @@ except:
     st.stop()
 
 # -------------------------
+# Helper: Run ETL
+# -------------------------
+def run_etl():
+    """Run the ETL script to fetch latest jobs."""
+    try:
+        result = subprocess.run(
+            ["python", "etl.py"],  # change etl.py to your actual script name
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return True, result.stdout
+    except subprocess.CalledProcessError as e:
+        return False, e.stderr
+
+# -------------------------
 # Load Data from SQLite
 # -------------------------
 @st.cache_data
@@ -38,19 +55,43 @@ def load_data():
     else:
         return pd.DataFrame()
 
-df = load_data()
+# -------------------------
+# Sidebar controls
+# -------------------------
+st.sidebar.header("⚙️ Controls")
 
+if st.sidebar.button("🔄 Fetch Latest Jobs (Run ETL)"):
+    with st.spinner("Fetching latest jobs..."):
+        success, msg = run_etl()
+        if success:
+            st.sidebar.success("✅ ETL pipeline finished!")
+            st.cache_data.clear()  # clear cache so we reload fresh data
+        else:
+            st.sidebar.error("❌ ETL pipeline failed")
+            st.sidebar.text(msg)
+
+# -------------------------
+# Auto-run ETL if no data
+# -------------------------
+df = load_data()
+if df.empty:
+    st.warning("⚠️ No jobs data found. Running ETL now...")
+    success, msg = run_etl()
+    if success:
+        st.success("✅ ETL pipeline finished. Please refresh the page.")
+        st.stop()
+    else:
+        st.error("❌ ETL pipeline failed")
+        st.text(msg)
+        st.stop()
+
+# -------------------------
+# Dashboard starts here
+# -------------------------
 st.title("📊 Job Market Analytics Dashboard")
 
-if df.empty:
-    st.warning("⚠️ No jobs data found. Please run the ETL pipeline first.")
-    st.stop()
-
-# -------------------------
 # Sidebar Filters
-# -------------------------
 st.sidebar.header("🔎 Filter Jobs")
-
 roles = df["title"].dropna().unique()
 selected_roles = st.sidebar.multiselect("Filter by Job Role", roles)
 
@@ -88,10 +129,7 @@ st.subheader(f"📋 Showing {len(filtered_df)} job postings")
 st.dataframe(filtered_df)
 
 # -------------------------
-# KPI Cards (Styled)
-# -------------------------
-# -------------------------
-# KPI Cards (Improved Style)
+# KPI Cards
 # -------------------------
 st.markdown("---")
 st.subheader("📊 Key Insights")
@@ -154,9 +192,8 @@ with kpi4:
         unsafe_allow_html=True,
     )
 
-
 # -------------------------
-# Charts Section
+# Charts
 # -------------------------
 st.markdown("---")
 st.subheader("📈 Job Insights")
