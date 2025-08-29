@@ -1,47 +1,18 @@
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
 import os
 import sqlite3
-from collections import Counter
-from wordcloud import WordCloud
-import seaborn as sns
+import pandas as pd
+import streamlit as st
 import plotly.express as px
-from prophet import Prophet
-import spacy
-import subprocess
+from wordcloud import WordCloud
+from collections import Counter
 
-# -------------------------
-# Config
-# -------------------------
+# Define DB path relative to repo root
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "jobs.db")
 
-st.set_page_config(page_title="Job Market Dashboard", layout="wide")
-
-# Load spaCy model
-try:
-    nlp = spacy.load("en_core_web_sm")
-except:
-    st.error("⚠️ spaCy model not found. Run: python -m spacy download en_core_web_sm")
-    st.stop()
-
-# -------------------------
-# Helper: Run ETL
-# -------------------------
-def run_etl():
-    """Run the ETL script to fetch latest jobs."""
-    try:
-        result = subprocess.run(
-            ["python", "etl.py"], capture_output=True, text=True, check=True
-        )
-        return True, result.stdout
-    except subprocess.CalledProcessError as e:
-        return False, e.stderr
-
-# -------------------------
-# Load Data from SQLite
-# -------------------------
+# --------------------------------------------------------------------
+# Load Data
+# --------------------------------------------------------------------
 @st.cache_data
 def load_data():
     if os.path.exists(DB_PATH):
@@ -53,7 +24,24 @@ def load_data():
         except Exception as e:
             st.error(f"❌ Error reading database: {e}")
             return pd.DataFrame()
-    return pd.DataFrame()
+    else:
+        # Run ETL pipeline automatically
+        st.warning("⚠️ No jobs data found. Running ETL now...")
+        result = os.system("python run_pipeline.py all")
+        if result != 0:
+            st.error("❌ ETL pipeline failed. Check logs.")
+            return pd.DataFrame()
+        else:
+            st.success("✅ ETL pipeline completed successfully!")
+            try:
+                conn = sqlite3.connect(DB_PATH)
+                df = pd.read_sql("SELECT * FROM jobs", conn)
+                conn.close()
+                return df
+            except Exception as e:
+                st.error(f"❌ Error loading DB after ETL: {e}")
+                return pd.DataFrame()
+
 
 # -------------------------
 # Sidebar controls
