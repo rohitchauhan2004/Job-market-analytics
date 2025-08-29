@@ -1,17 +1,29 @@
-# Virtual environments
+# Virtual environment
 .venv/
+env/
 venv/
 
 # Python cache
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
 
-# Streamlit cache
-.streamlit/
+# Environment variables
+.env
 
-# Jupyter notebooks checkpoints
-.ipynb_checkpoints/
+# Database & local data files
+*.db
+*.sqlite3
+*.xlsx
+*.csv
+
+# Logs
+*.log
+
+# Reports and notebooks
+*.ipynb_checkpoints
+reports/
 
 # OS files
 .DS_Store
