@@ -1,0 +1,20 @@
+name,category,aliases
+python,programming,py
+sql,programming,structured query language
+excel,tool,ms excel|microsoft excel
+tableau,bi,viz
+power bi,bi,powerbi
+machine learning,ml,ml
+nlp,ml,natural language processing
+aws,cloud,amazon web services
+azure,cloud,microsoft azure
+gcp,cloud,google cloud
+spark,bigdata,apache spark
+pandas,python,python pandas
+numpy,python,python numpy
+scikit-learn,python,sklearn
+docker,devops,containers
+kubernetes,devops,k8s
+git,tool,git version control
+linux,os,gnu/linux
+statistics,math,stats
