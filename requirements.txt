@@ -20,3 +20,5 @@ matplotlib
 plotly
 streamlit
 pyyaml
+wordcloud
+
