@@ -6,6 +6,24 @@ import plotly.express as px
 from wordcloud import WordCloud
 from collections import Counter
 
+def run_etl():
+    """Run the ETL pipeline by calling run_pipeline.py"""
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ["python", "run_pipeline.py", "all"],
+            capture_output=True,
+            text=True
+        )
+        if result.returncode == 0:
+            return True, "✅ ETL pipeline completed successfully!"
+        else:
+            return False, f"❌ ETL pipeline failed:\n{result.stderr}"
+    except Exception as e:
+        return False, f"❌ Error running ETL: {e}"
+
+
 # Define DB path relative to repo root
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "jobs.db")
@@ -25,14 +43,14 @@ def load_data():
             st.error(f"❌ Error reading database: {e}")
             return pd.DataFrame()
     else:
-        # Run ETL pipeline automatically
+        # Run ETL if DB missing
         st.warning("⚠️ No jobs data found. Running ETL now...")
-        result = os.system("python run_pipeline.py all")
-        if result != 0:
-            st.error("❌ ETL pipeline failed. Check logs.")
+        success, msg = run_etl()
+        if not success:
+            st.error(msg)
             return pd.DataFrame()
         else:
-            st.success("✅ ETL pipeline completed successfully!")
+            st.success(msg)
             try:
                 conn = sqlite3.connect(DB_PATH)
                 df = pd.read_sql("SELECT * FROM jobs", conn)
@@ -41,6 +59,7 @@ def load_data():
             except Exception as e:
                 st.error(f"❌ Error loading DB after ETL: {e}")
                 return pd.DataFrame()
+
 
 
 # -------------------------
