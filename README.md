@@ -84,19 +84,15 @@ streamlit run streamlit_app.py
 
 ✅ Interactive Visuals with Plotly
 
-🛠 Tech Stack
+## 🛠 Tech Stack
+- **Python 3.10+**
+- **Streamlit** – Dashboard UI
+- **Plotly** – Data Visualization
+- **SQLite** – Database
+- **pandas / numpy** – Data Processing
+- **spaCy / NLP** – Skills Extraction
+- **FastAPI** – REST API to serve job & skills data
 
-Python 3.10+
-
-Streamlit – Dashboard UI
-
-Plotly – Data Visualization
-
-SQLite – Database
-
-pandas / numpy – Data Processing
-
-spaCy / NLP – Skills Extraction
 
 🙌 Future Enhancements
 
