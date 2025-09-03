@@ -1,1 +1,1 @@
-streamlitpandasnumpymatplotlibplotlyseabornwordcloudscikit-learnprophetspacyen-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+streamlitpandassqlalchemyrequestspython-dotenvspacyscikit-learnmatplotlibplotlyprophetspacyen-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz

@@ -6,6 +6,15 @@ import plotly.express as px
 from wordcloud import WordCloud
 from collections import Counter
 
+# Forecasting
+from prophet import Prophet   # install with: pip install prophet
+
+# NLP
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+
+
 def run_etl():
     """Run the ETL pipeline by calling run_pipeline.py"""
     import subprocess
@@ -25,8 +34,10 @@ def run_etl():
 
 
 # Define DB path relative to repo root
+# Define DB path relative to repo root
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "jobs.db")
+DB_PATH = os.path.join(BASE_DIR, "data", "jobs.db")
+
 
 # --------------------------------------------------------------------
 # Load Data

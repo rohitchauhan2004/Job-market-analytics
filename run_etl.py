@@ -1,34 +1,30 @@
-import sys
-import os
-
-# Ensure src/ is on Python path
-sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
-
-from etl import fetch_jobs, ingest, process, skills, export
+# run_etl.py
+from src.etl import fetch_jobs, ingest, process, skills, export
 
 def run_etl():
     print("🚀 Starting ETL pipeline...")
-
     try:
-        jobs = fetch_jobs.fetch_job_listings()
-        print(f"✅ Fetched {len(jobs)} jobs")
+        # 1. Fetch jobs
+        fetch_jobs.main()
 
-        df = ingest.ingest_data(jobs)
-        print("✅ Ingested data")
+        # 2. Ingest raw jobs into database
+        ingest.main()
 
-        processed_df = process.clean_data(df)
-        print("✅ Processed data")
+        # 3. Process data (cleaning, transformations)
+        process.main()
 
-        skill_stats = skills.extract_skills(processed_df)
-        print("✅ Extracted skills")
+        # 4. Extract skills (NLP)
+        skills.main()
 
-        export.export_to_sqlite(processed_df, "jobs.db")
-        print("✅ Exported to jobs.db")
+        # 5. Export cleaned data
+        export.main()
 
-        print("🎉 ETL pipeline completed successfully!")
+        print("✅ ETL pipeline completed successfully!")
 
     except Exception as e:
         print(f"❌ ETL pipeline failed: {e}")
+        raise
+
 
 if __name__ == "__main__":
     run_etl()
