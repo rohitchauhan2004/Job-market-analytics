@@ -1,1 +1,1 @@
-streamlitpandassqlalchemyrequestspython-dotenvspacyscikit-learnmatplotlibplotlyprophetspacyen-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
+# Core frameworkstreamlit==1.37.0plotly==5.24.1# Data processingpandas==2.2.2numpy==1.26.4# Databasesqlalchemy==2.0.30openpyxl==3.1.5# API & environmentrequests==2.32.3python-dotenv==1.0.1# NLPspacy==3.7.4scikit-learn==1.5.1
