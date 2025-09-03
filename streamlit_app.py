@@ -11,11 +11,13 @@ from prophet import Prophet   # install with: pip install prophet
 
 # NLP
 import spacy
+
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
     import en_core_web_sm
     nlp = en_core_web_sm.load()
+
 
 
 
