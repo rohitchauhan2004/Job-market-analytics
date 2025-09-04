@@ -17,13 +17,13 @@ An end-to-end **ETL + Analytics + Dashboard** project that extracts job postings
 ## 🖼️ Dashboard Preview  
 
 ### 🔹 ETL Status & Controls  
-![ETL and Controls](images/etl_controls.png)
+![ETL and Controls](app.png)
 
 ### 🔹 Job Trends Over Time  
-![Job Trends](images/job_trends.png)
+![Job Trends](images/insights.png)
 
 ### 🔹 Top 10 Skills in Demand (NLP Extracted)  
-![Skills in Demand](images/skills_in_demand.png)
+![Skills in Demand](_NLP.png)
 
 ---
 
