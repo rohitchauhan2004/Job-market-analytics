@@ -16,14 +16,8 @@ An end-to-end **ETL + Analytics + Dashboard** project that extracts job postings
 
 ## 🖼️ Dashboard Preview  
 
-### 🔹 ETL Status & Controls  
+  
 ![ETL and Controls](app.png)
-
-### 🔹 Job Trends Over Time  
-![Job Trends](images/insights.png)
-
-### 🔹 Top 10 Skills in Demand (NLP Extracted)  
-![Skills in Demand](_NLP.png)
 
 ---
 
